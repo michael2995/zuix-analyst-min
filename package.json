@@ -1,0 +1,10 @@
+{
+  "name": "zuix-analyst",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "ts-morph": "^10.0.1"
+  },
+  "dependencies": {}
+}
