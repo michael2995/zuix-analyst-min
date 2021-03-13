@@ -76,14 +76,46 @@ const hasAnyJsxElementsInFile = (source) => {
 
 const targetDirectory = path.resolve(__dirname, "../zigbang-client")
 const sourceFiles = project.addSourceFilesAtPaths(path.resolve(targetDirectory, "./!(node_modules)**/**.(ts|tsx)"))
+
+const elements = {
+    __meta: {
+        total: 0,
+        zuix: 0,
+        zuixRatio: 0,
+    }
+}
+
+/**
+ * @param {string} tag 
+ */
+const countElement = (tag) => {
+    elements[tag] = elements[tag] ? elements[tag] + 1 : 1
+}
+
 const result = sourceFiles
     .filter(hasAnyJsxElementsInFile)
     .map((sourceFile) => {
+        const {elementTags, zuixElementTags, zuixRatio} = getZuixAnalysis(sourceFile)
+        elementTags.forEach((tag) => {
+            countElement(tag)
+            elements.__meta.total += 1
+        })
+        zuixElementTags.forEach((tag) => {
+            countElement(tag)
+            elements.__meta.zuix += 1
+        })
     return {
         filename: sourceFile.getFilePath().replace(targetDirectory, ""),
-        ...getZuixAnalysis(sourceFile)
+        elementTags,
+        zuixElementTags,
+        zuixRatio,
     }
 })
 
-const json = JSON.stringify(result)
-fs.writeFileSync(path.resolve(__dirname, "./analysis.json"), json)
+elements.__meta.zuixRatio = elements.__meta.zuix / elements.__meta.total
+
+const elementAnalysis = JSON.stringify(elements)
+const fileAnalysis = JSON.stringify(result)
+
+fs.writeFileSync(path.resolve(__dirname, "./element_analysis.json"), elementAnalysis)
+fs.writeFileSync(path.resolve(__dirname, "./file_analysis.json"), fileAnalysis)
