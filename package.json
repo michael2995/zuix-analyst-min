@@ -1,6 +1,6 @@
 {
   "name": "zuix-analyst",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "author": "michael2995",
   "bin": {
     "zuix-analyze": "./bin/run"
