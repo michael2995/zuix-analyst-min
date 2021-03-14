@@ -12,9 +12,8 @@ export const getZuixAnalysisForDir = (dirPath: string) => {
         zuixRatio: 0,
     }
     const elements: {[index: string]: number} = {}
-
-    const targetDirectory = path.resolve(dirPath)
-    const sourceFiles = project.addSourceFilesAtPaths(path.resolve(targetDirectory, "./!(node_modules)**/**.(ts|tsx)"))
+    const paths = path.resolve(dirPath, "./!(node_modules)**/**.(ts|tsx)")
+    const sourceFiles = project.addSourceFilesAtPaths(paths)
     
     const countElement = (tag: string) => {
         elements[tag] = elements[tag] ? elements[tag] + 1 : 1
@@ -33,7 +32,7 @@ export const getZuixAnalysisForDir = (dirPath: string) => {
                 meta.zuix += 1
             })
         return {
-            filename: sourceFile.getFilePath().replace(targetDirectory, ""),
+            filename: sourceFile.getFilePath().replace(dirPath, ""),
             elementTags,
             zuixElementTags,
             zuixRatio,
