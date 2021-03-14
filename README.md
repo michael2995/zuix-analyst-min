@@ -19,7 +19,7 @@ $ npm install -g zuix-analyst
 $ zuix-analyst COMMAND
 running command...
 $ zuix-analyst (-v|--version|version)
-zuix-analyst/0.1.0 darwin-x64 node-v14.15.5
+zuix-analyst/0.1.1 darwin-x64 node-v14.15.5
 $ zuix-analyst --help [COMMAND]
 USAGE
   $ zuix-analyst COMMAND
