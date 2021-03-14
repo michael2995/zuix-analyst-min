@@ -13,18 +13,19 @@ class ZuixAnalyze extends Command {
     // path to analyze
     path: flags.string({char: "p", required: true}),
     // optional. path for output files
-    output: flags.string({char: "o"})
+    output: flags.string({char: "o"}),
+    // optional. url for server endpoint
+    server: flags.string({char: "s"}),
   }
 
   static args = [{name: 'file'}]
 
   async run() {
     const {flags} = this.parse(ZuixAnalyze)
-    const {path: relativePath, output} = flags
-    const {ZUIX_ANALYSIS_ENDPOINT} = process.env
+    const {path: relativePath, output, server} = flags
     const targetPath = path.resolve(process.cwd(), relativePath)
     
-    if (!output && ZUIX_ANALYSIS_ENDPOINT === undefined) {
+    if (!output && server === undefined) {
       throw new Error("ZUIX_ANALYSIS_ENDPOINT is not provided")
     }
     
@@ -40,7 +41,7 @@ class ZuixAnalyze extends Command {
     } else {
       reportToServer({
         report: zuixAnalysis,
-        server: ZUIX_ANALYSIS_ENDPOINT
+        server
       })
     }
   }
