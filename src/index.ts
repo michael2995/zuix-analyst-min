@@ -24,7 +24,8 @@ class ZuixAnalyze extends Command {
     const {flags} = this.parse(ZuixAnalyze)
     const {path: relativePath, output, server} = flags
     const targetPath = path.resolve(process.cwd(), relativePath)
-    
+    console.log(`Analyzing ${targetPath} for zuis-usage`)
+
     if (!output && server === undefined) {
       throw new Error("ZUIX_ANALYSIS_ENDPOINT is not provided")
     }
