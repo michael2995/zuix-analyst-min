@@ -20,7 +20,7 @@ export const reportToServer = (params: ReportParams) => {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            commitHash: params.commit,
+            commithash: params.commit,
             contributor: params.contributor,
             data: params.report
         })
