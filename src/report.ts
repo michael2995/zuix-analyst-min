@@ -3,7 +3,10 @@ import { ZuixAnalysisReport } from "./analyze"
 
 type ReportParams = {
     server?: string,
-    report: ZuixAnalysisReport
+    report: ZuixAnalysisReport,
+    // This is commit hash
+    commit?: string
+    contributor?: string
 }
 
 export const reportToServer = (params: ReportParams) => {
@@ -17,7 +20,11 @@ export const reportToServer = (params: ReportParams) => {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(params.report)
+            body: JSON.stringify({
+                commitHash: params.commit,
+                contributor: params.contributor,
+                data: params.report
+            })
         })
     } catch (e) {
         throw Error(e)

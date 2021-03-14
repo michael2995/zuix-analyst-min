@@ -16,15 +16,18 @@ class ZuixAnalyze extends Command {
     output: flags.string({char: "o"}),
     // optional. url for server endpoint
     server: flags.string({char: "s"}),
+    // optional. commit hash
+    commit: flags.string({char: "c"}),
+    // optional. contributor
+    contributor: flags.string({char: "C"})
   }
 
   static args = [{name: 'file'}]
 
   async run() {
     const {flags} = this.parse(ZuixAnalyze)
-    const {path: relativePath, output, server} = flags
+    const {path: relativePath, output, server, contributor, commit} = flags
     const targetPath = path.resolve(process.cwd(), relativePath)
-    console.log(`Analyzing ${targetPath} for zuis-usage`)
 
     if (!output && server === undefined) {
       throw new Error("ZUIX_ANALYSIS_ENDPOINT is not provided")
@@ -42,7 +45,9 @@ class ZuixAnalyze extends Command {
     } else {
       reportToServer({
         report: zuixAnalysis,
-        server
+        server,
+        commit,
+        contributor,
       })
     }
   }
